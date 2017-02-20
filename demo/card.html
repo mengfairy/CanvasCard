@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;}
+        html,body{width: 100%;height: 100%}
+        .container{
+            width: 100%;
+            height: 100%;
+            background: peachpuff;
+            overflow: hidden;
+        }
+        #card-area{
+            margin: 200px auto 0;
+            width: 262px;height: 73px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="card-area">
+        <!--<canvas id="card" width="262" height="73" style="background: url('images/card-bottom.png') center center no-repeat;background-size: cover"></canvas>-->
+    </div>
+</div>
+<script type="text/javascript" src="./js/CanvasCard.min.js"></script>
+<script type="text/javascript">
+    new CanvasCard({
+        element:'card-area',
+        bgPic:true ? './images/card-bottom.png':'./images/card-bottom2.png',
+        upPic:'./images/card-up.png'
+    });
+</script>
+</body>
+</html>
