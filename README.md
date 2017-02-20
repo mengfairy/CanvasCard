@@ -1,5 +1,3 @@
-[TOC]
-
 # CanvasCard
 
 基于Canvas的刮奖效果,兼容IE9+，不依赖其他插件。
