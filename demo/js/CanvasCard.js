@@ -3,7 +3,7 @@
  * User: wangmeng
  * Date: 2017/2/20
  * Time: 13:11
- * Desc: »ùÓÚCanvasµÄ¹Î½±²å¼ş
+ * Desc: åŸºäºCanvasçš„åˆ®å¥–æ’ä»¶
  */
 (function(global, factory){
     if (typeof define === 'function' && (define.amd || define.cmd)) {
@@ -16,16 +16,16 @@
         try {
             document.createElement("canvas").getContext("2d");
         } catch (e) {
-            alert('¶Ô²»Æğ£¬ÄúµÄä¯ÀÀÆ÷²»Ö§³Ö¹Î¹Î¿¨¹¦ÄÜ');
+            alert('å¯¹ä¸èµ·ï¼Œæ‚¨çš„æµè§ˆå™¨ä¸æ”¯æŒåˆ®åˆ®å¡åŠŸèƒ½');
             return false;
         }
         if(!options.element || ! options.bgPic || !options.upPic){return false}
         if(!document.getElementById(options.element)){return false}
         this.option = options;
-        this.initCanvas(true);
+        this.initCanvas();
     };
     card.prototype = {
-        eventBind: function(){//°ó¶¨ÊÂ¼ş£¬touchstart,touchmove,touchendµÄ²Ù×÷
+        eventBind: function(){//ç»‘å®šäº‹ä»¶ï¼Œtouchstart,touchmove,touchendçš„æ“ä½œ
             var _this = this;
             var mousedown = false;
             function eventDowm(e){
@@ -38,16 +38,16 @@
             }
             function eventMove(e){
                 e.preventDefault();
-                if(mousedown){//touchmoveµÄÊ±ºòÅĞ¶ÏÊÇ·ñ°´ÏÂ£¬
+                if(mousedown){//touchmoveçš„æ—¶å€™åˆ¤æ–­æ˜¯å¦æŒ‰ä¸‹ï¼Œ
                     if(e.changedTouches){
-                        /*changedTouches£º×î½üÒ»´Î´¥·¢¸ÃÊÂ¼şµÄÊÖÖ¸ĞÅÏ¢±ÈÈçÁ½¸öÊÖÖ¸Í¬Ê±´¥·¢ÊÂ¼ş£¬
-                         2¸öÊÖÖ¸¶¼ÔÚÇøÓòÄÚ£¬ÔòÈİÁ¿Îª2£¬Èç¹ûÊÇÏÈºóÀë¿ªµÄµÄ»°£¬¾Í»áÏÈ´¥·¢Ò»´ÎÔÙ´¥·¢Ò»´Î£¬ÕâÀïµÄlength¾ÍÊÇ1£¬
-                         Ö»Í³¼Æ×îĞÂµÄ£¨PS£ºÒ»°ãchangedTouchesµÄlength¶¼ÊÇ1£©*/
+                        /*changedTouchesï¼šæœ€è¿‘ä¸€æ¬¡è§¦å‘è¯¥äº‹ä»¶çš„æ‰‹æŒ‡ä¿¡æ¯æ¯”å¦‚ä¸¤ä¸ªæ‰‹æŒ‡åŒæ—¶è§¦å‘äº‹ä»¶ï¼Œ
+                         2ä¸ªæ‰‹æŒ‡éƒ½åœ¨åŒºåŸŸå†…ï¼Œåˆ™å®¹é‡ä¸º2ï¼Œå¦‚æœæ˜¯å…ˆåç¦»å¼€çš„çš„è¯ï¼Œå°±ä¼šå…ˆè§¦å‘ä¸€æ¬¡å†è§¦å‘ä¸€æ¬¡ï¼Œè¿™é‡Œçš„lengthå°±æ˜¯1ï¼Œ
+                         åªç»Ÿè®¡æœ€æ–°çš„ï¼ˆPSï¼šä¸€èˆ¬changedTouchesçš„lengthéƒ½æ˜¯1ï¼‰*/
                         e = e.changedTouches[e.changedTouches.length - 1];
                     }
                     var x= e.clientX+document.body.scrollLeft - _this.canvas.offsetLeft;
                     var y= e.clientY+document.body.scrollTop - _this.canvas.offsetTop;
-                    _this.drawPoint(x,y);//µ÷ÓÃ»æÖÆ½¥±äÔ²·½·¨
+                    _this.drawPoint(x,y);//è°ƒç”¨ç»˜åˆ¶æ¸å˜åœ†æ–¹æ³•
                 }
             }
             _this.canvas.addEventListener('touchstart',eventDowm);
@@ -56,13 +56,13 @@
             _this.canvas.addEventListener('mousedown',eventDowm);
             _this.canvas.addEventListener("mouseup",eventUp);
             _this.canvas.addEventListener('mousemove',eventMove);
-            window.addEventListener("resize",function(){clearTimeout(_this.time),_this.time=setTimeout(_this.initCanvas.bind(_this),300)},false);
+            window.addEventListener("resize",function(){clearTimeout(_this.time),_this.time=setTimeout(_this.resetCanvas.bind(_this),300)},false);
         },
         drawPoint: function(x,y){
             /*http://www.cnblogs.com/tim-li/archive/2012/08/06/2580252.html#11
-             * Õâ¸öÍøÖ·½²canvas½²µÄ»¹²»´í£¬¿ÉÒÔ¿´¿´*/
-            this.cxt.globalCompositeOperation = 'destination-out';//×îÖØÒªµÄÒ»²½£¬ÉèÖÃcanvas×éºÏ»æÖÆÍ¼ĞÎÊ±ÏÔÊ¾·½Ê½
-            /*»æÖÆ¿ªÊ¼£¡*/
+             * è¿™ä¸ªç½‘å€è®²canvasè®²çš„è¿˜ä¸é”™ï¼Œå¯ä»¥çœ‹çœ‹*/
+            this.cxt.globalCompositeOperation = 'destination-out';//æœ€é‡è¦çš„ä¸€æ­¥ï¼Œè®¾ç½®canvasç»„åˆç»˜åˆ¶å›¾å½¢æ—¶æ˜¾ç¤ºæ–¹å¼
+            /*ç»˜åˆ¶å¼€å§‹ï¼*/
             this.cxt.beginPath();
             var g1 = this.cxt.createRadialGradient(x,y,0,x,y,30);
             g1.addColorStop(0, 'rgba(0,0,0,1)');
@@ -72,29 +72,45 @@
             this.cxt.closePath();
             this.cxt.fill();
         },
-        initCanvas: function(first){
-            console.log(first);
+        resetCanvas:function(){
+            var _this = this;
+            var width = _this.dom.offsetWidth,height = _this.dom.offsetHeight;
+            if(width == _this.width && height == _this.height) return false;//å¦‚æœå±å¹•å˜åŒ–åå®¹å™¨æ— å˜åŒ–return
+            _this.width = width,_this.height = height;
+            var img = new Image();
+            img.src = _this.canvas.toDataURL();//æ¶‚æŠ¹åçš„å›¾ç‰‡
+
+            /*canvasæ ·å¼è®¾ç½®*/
+            _this.canvas.setAttribute('width', this.width+'px');
+            _this.canvas.setAttribute('height', this.height+'px');
+
+            img.onload = function(){//å›¾ç‰‡åŠ è½½å®Œæˆï¼Œç»˜åˆ¶
+                _this.cxt.drawImage(img,0,0,img.width,img.height,0,0, _this.width, _this.height);
+            }
+        },
+        initCanvas: function(){
             var s =this;
-            var img = new Image(),obj=document.getElementById(s.option.element),width=obj.offsetWidth,height=obj.offsetHeight;
-            img.src=s.option.upPic;//ÉèÖÃÒª»æÖÆµÄÕÚÕÖÍ¼Æ¬µÄÂ·¾¶
-            s.canvas = obj.getElementsByTagName("canvas")[0];
+            s.dom = document.getElementById(s.option.element),s.width = s.dom.offsetWidth,s.height = s.dom.offsetHeight;
+            var img = new Image();
+            img.src=s.option.upPic;//è®¾ç½®è¦ç»˜åˆ¶çš„é®ç½©å›¾ç‰‡çš„è·¯å¾„
+            s.canvas = s.dom.getElementsByTagName("canvas")[0];
             if(!s.canvas){
                 var newCanvas = document.createElement("canvas");
-                obj.appendChild(newCanvas);
+                s.dom.appendChild(newCanvas);
                 s.canvas = newCanvas;
+                s.cxt = newCanvas.getContext('2d');
             }
-            /*canvasÑùÊ½ÉèÖÃ*/
-            s.canvas.setAttribute('width',width+'px');
-            s.canvas.setAttribute('height',height+'px');
+            /*canvasæ ·å¼è®¾ç½®*/
+            s.canvas.setAttribute('width', s.width+'px');
+            s.canvas.setAttribute('height', s.height+'px');
             s.canvas.style.backgroundImage = "url('"+s.option.bgPic+"')";
             s.canvas.style.backgroundColor = 'transparent';
             s.canvas.style.backgroundSize = "cover";
             s.canvas.style.backgroundRepeat = "no-repeat";
             s.canvas.style.backgroundPosition = "center";
-            img.onload = function(){//Í¼Æ¬¼ÓÔØÍê³É£¬»æÖÆ
-                s.cxt = s.canvas.getContext("2d");
-                s.cxt.drawImage(img,0,0,img.width,img.height,0,0,width,height);
-                first ? s.eventBind():null;//Ê×´Î»æÖÆÍê³É£¬°ó¶¨ÊÂ¼ş£¬±ÜÃâÖØ¸´°ó¶¨
+            img.onload = function(){//å›¾ç‰‡åŠ è½½å®Œæˆï¼Œç»˜åˆ¶
+                s.cxt.drawImage(img,0,0,img.width,img.height,0,0, s.width, s.height);
+                s.eventBind();//ç»‘å®šäº‹ä»¶
             }
         }
     };
